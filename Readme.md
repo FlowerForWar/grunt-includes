@@ -1,3 +1,9 @@
+One line has been change from the original.
+```js
+// next = path.join(opts.includePath || path.dirname(p), fileLocation);
+next = path.join(level === 1 ? opts.includePath : path.dirname(p), fileLocation);
+```
+
 # grunt-includes [![Build Status](https://travis-ci.org/vanetix/grunt-includes.png?branch=master)](https://travis-ci.org/vanetix/grunt-includes)
 ***Requires grunt >= 1.0.0***
 
