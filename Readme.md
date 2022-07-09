@@ -18,7 +18,7 @@ Install this grunt plugin next to your project's _Gruntfile.js_ with: `npm insta
 Then add this line to your project's `Gruntfile.js`:
 
 ```javascript
-grunt.loadNpmTasks('grunt-includes');
+grunt.loadNpmTasks('grunt-includes-relative-path');
 ```
 
 An example site can be found at [grunt-includes-example](https://github.com/vanetix/grunt-includes-example).
