@@ -13,7 +13,7 @@ A grunt task for including a file within another file (think php includes). _Cir
 
 ## Getting Started
 
-Install this grunt plugin next to your project's _Gruntfile.js_ with: `npm install grunt-includes-relative-path --save-dev`
+Install this grunt plugin with: `npm install grunt-includes-relative-path --save-dev`
 
 Then add this line to your project's `Gruntfile.js`:
 
