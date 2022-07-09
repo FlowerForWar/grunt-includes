@@ -1,17 +1,17 @@
 {
   "name": "grunt-includes-relative-path",
   "description": "Include other files within a file.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "vanetix <matmcfarland@gmail.com>",
   "license": "MIT",
   "main": "Gruntfile.js",
-  "homepage": "https://github.com/vanetix/grunt-includes",
+  "homepage": "https://github.com/FlowerForWar/grunt-includes-relative-path",
   "bugs": {
-    "url": "https://github.com/vanetix/grunt-includes/issues"
+    "url": "https://github.com/FlowerForWar/grunt-includes-relative-path/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/vanetix/grunt-includes.git"
+    "url": "git://github.com/FlowerForWar/grunt-includes-relative-path.git"
   },
   "scripts": {
     "test": "grunt test"
