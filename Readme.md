@@ -1,4 +1,4 @@
-One line has been change from the original.
+One line has been changed from the original.
 
 ```js
 // next = path.join(opts.includePath || path.dirname(p), fileLocation);
