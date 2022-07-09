@@ -6,8 +6,7 @@
  * Licensed under the MIT license.
  */
 
-module.exports = function(grunt) {
-
+module.exports = function (grunt) {
   /**
    * Dependencies
    */
@@ -31,7 +30,7 @@ module.exports = function(grunt) {
    * Iterates over all source files and calls `recurse(path)` on each
    */
 
-  grunt.registerMultiTask('includes', 'Include other files within files.', function() {
+  grunt.registerMultiTask('includes', 'Include other files within files.', function () {
     var banner;
 
     // Default options
@@ -47,7 +46,7 @@ module.exports = function(grunt) {
       template: '',
       templateFileRegexp: defaultTemplateFileRegexp,
       wrapper: '',
-      wrapperFileRegexp: defaultTemplateFileRegexp
+      wrapperFileRegexp: defaultTemplateFileRegexp,
     });
 
     if (grunt.util.kindOf(opts.includeRegexp) === 'string') {
@@ -57,7 +56,7 @@ module.exports = function(grunt) {
     if (grunt.util.kindOf(opts.templateFileRegexp) === 'string') {
       opts.templateFileRegexp = new RegExp(opts.templateFileRegexp);
     }
-    
+
     if (grunt.util.kindOf(opts.wrapperFileRegexp) === 'string') {
       opts.wrapperFileRegexp = new RegExp(opts.wrapperFileRegexp);
     }
@@ -65,10 +64,11 @@ module.exports = function(grunt) {
     // Render banner
     banner = grunt.template.process(opts.banner);
 
-    this.files.forEach(function(f) {
-      var src, cwd = f.cwd;
+    this.files.forEach(function (f) {
+      var src,
+        cwd = f.cwd;
 
-      src = f.src.filter(function(p) {
+      src = f.src.filter(function (p) {
         if (cwd) {
           p = path.join(f.cwd, p);
         }
@@ -85,7 +85,7 @@ module.exports = function(grunt) {
         grunt.fail.fatal('Source file cannot be more than one when dest is a file.');
       }
 
-      src.forEach(function(p) {
+      src.forEach(function (p) {
         var fileName = f.flatten ? path.basename(p) : p;
         var outFile = isFilename(f.dest) ? f.dest : path.join(f.dest, fileName);
 
@@ -99,7 +99,6 @@ module.exports = function(grunt) {
           grunt.log.oklns('Saved ' + outFile);
         }
       });
-
     });
   });
 
@@ -123,12 +122,12 @@ module.exports = function(grunt) {
 
   function commentStyle(p) {
     var comments,
-        ext = path.extname(p).slice(1);
+      ext = path.extname(p).slice(1);
 
     comments = {
-      js: "/* %s */",
-      css: "/* %s */",
-      html: "<!-- %s -->"
+      js: '/* %s */',
+      css: '/* %s */',
+      html: '<!-- %s -->',
     };
 
     return comments[ext] || '/* %s */';
@@ -142,9 +141,8 @@ module.exports = function(grunt) {
    */
 
   function newlineStyle(p) {
-    
-    if( grunt.file.isFile(p) ) p = grunt.file.read(p);
-    
+    if (grunt.file.isFile(p)) p = grunt.file.read(p);
+
     var matches = p.match(newlineRegexp);
 
     return (matches && matches[0]) || grunt.util.linefeed;
@@ -158,9 +156,7 @@ module.exports = function(grunt) {
    */
 
   function recurse(p, opts, level, included, indents) {
-    var src, next, match, error, comment, content,
-        newline, compiled, indent, fileLocation,
-        currentTemplate;
+    var src, next, match, error, comment, content, newline, compiled, indent, fileLocation, currentTemplate;
 
     if (!grunt.file.isFile(p)) {
       grunt.fail.warn('Included file "' + p + '" not found.');
@@ -177,7 +173,7 @@ module.exports = function(grunt) {
       error = 'Duplicate include: ' + p + ' skipping.';
 
       if (!opts.silent) {
-         grunt.log.error(error);
+        grunt.log.error(error);
       }
 
       if (opts.debug) {
@@ -192,46 +188,43 @@ module.exports = function(grunt) {
 
     // Read the source file.
     src = grunt.file.read(p);
-    
-    // Add wrappers to source files.
-    if( opts.wrapper !== '' && level == 1 ) {
-      
-      if( grunt.file.isFile(opts.wrapper) ) opts.wrapper = grunt.file.read(opts.wrapper);
-  
-      if( opts.wrapper.match(opts.wrapperFileRegexp) ) {
-      
-        currentWrapper = opts.wrapper.split(newlineStyle(opts.wrapper)).map(function(line) {
 
+    // Add wrappers to source files.
+    if (opts.wrapper !== '' && level == 1) {
+      if (grunt.file.isFile(opts.wrapper)) opts.wrapper = grunt.file.read(opts.wrapper);
+
+      if (opts.wrapper.match(opts.wrapperFileRegexp)) {
+        currentWrapper = opts.wrapper.split(newlineStyle(opts.wrapper)).map(function (line) {
           line = line.replace(templateFilenameRegexp, fileLocation);
-          
-          if( line.match(opts.wrapperFileRegexp) ) { 
-            
+
+          if (line.match(opts.wrapperFileRegexp)) {
             // Capture the existing indents.
             var indent = line.match(/^(\s*)/)[1];
-            
+
             // Add indents to source file.
-            src = src.split(newline).map(function(srcline, i) { return i === 0 ? srcline : indent + srcline; }).join(newline);
-      
+            src = src
+              .split(newline)
+              .map(function (srcline, i) {
+                return i === 0 ? srcline : indent + srcline;
+              })
+              .join(newline);
+
             // Replace the contents.
             line = line.replace(opts.wrapperFileRegexp, src);
-            
           }
 
           return line;
-
         });
 
         src = currentWrapper.join(newline);
-        
       }
-      
     }
-    
+
     // Split the file on newlines.
     src = src.split(newline);
 
     // Loop through the file calling `recurse` if an include is found
-    compiled = src.map(function(line) {
+    compiled = src.map(function (line) {
       match = line.match(opts.includeRegexp);
 
       // If the line has an include statement, recurse
@@ -253,7 +246,7 @@ module.exports = function(grunt) {
 
         // Try to locate the file through multiple includePath if array
         if (grunt.util.kindOf(opts.includePath) === 'array') {
-          opts.includePath.some(function(p) {
+          opts.includePath.some(function (p) {
             next = path.join(p, fileLocation);
             return grunt.file.isFile(next);
           });
@@ -262,14 +255,15 @@ module.exports = function(grunt) {
             next = path.join(path.dirname(p), fileLocation);
           }
         } else {
-          next = path.join((opts.includePath || path.dirname(p)), fileLocation);
+          // next = path.join(opts.includePath || path.dirname(p), fileLocation);
+          next = path.join(level === 1 ? opts.includePath : path.dirname(p), fileLocation);
         }
 
         content = recurse(next, opts, level + 1, included, indents + indent);
-        
+
         // Wrap file around in template if `opts.template` has '{{file}}' in it.
         if (opts.template !== '' && opts.template.match(opts.templateFileRegexp)) {
-          currentTemplate = opts.template.split(newline).map(function(line) {
+          currentTemplate = opts.template.split(newline).map(function (line) {
             line = line.replace(templateFilenameRegexp, fileLocation);
 
             if (line.match(opts.templateFileRegexp)) {
@@ -290,8 +284,7 @@ module.exports = function(grunt) {
 
         // Include debug comments if `opts.debug`
         if (opts.debug) {
-          line = comment.replace(/%s/g, 'Begin: ' + next) +
-                 newline + line + comment.replace(/%s/g, 'End: ' + next);
+          line = comment.replace(/%s/g, 'Begin: ' + next) + newline + line + comment.replace(/%s/g, 'End: ' + next);
         }
       }
 
@@ -299,6 +292,6 @@ module.exports = function(grunt) {
       return line && indents && !match ? indents + line : line;
     });
 
-    return  compiled.join(newline);
+    return compiled.join(newline);
   }
 };
